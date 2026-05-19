@@ -120,15 +120,20 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI,
     },
+    push: true,
   }),
   onInit: async (payload) => {
-    const existing = await payload.find({ collection: 'programs', limit: 1 })
-    if (existing.totalDocs === 0) {
-      payload.logger.info('Seeding programs...')
-      for (const program of SEED_PROGRAMS) {
-        await payload.create({ collection: 'programs', data: program })
+    try {
+      const existing = await payload.find({ collection: 'programs', limit: 1 })
+      if (existing.totalDocs === 0) {
+        payload.logger.info('Seeding programs...')
+        for (const program of SEED_PROGRAMS) {
+          await payload.create({ collection: 'programs', data: program })
+        }
+        payload.logger.info('Programs seeded.')
       }
-      payload.logger.info('Programs seeded.')
+    } catch (err) {
+      payload.logger.warn('onInit seed skipped: ' + (err as Error).message)
     }
   },
   secret: process.env.PAYLOAD_SECRET || '',
