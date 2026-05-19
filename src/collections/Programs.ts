@@ -10,7 +10,10 @@ export const Programs: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
-  hooks: { afterChange: [() => revalidateFrontend()] },
+  hooks: {
+    beforeOperation: [({ req, operation }) => { console.log(`[Programs] ${operation} – req.user: ${req.user?.id ?? 'null'}`) }],
+    afterChange: [() => revalidateFrontend()],
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'ageRange', 'price', 'featured'],
