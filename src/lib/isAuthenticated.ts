@@ -4,13 +4,16 @@ import type { PayloadRequest } from 'payload'
 export async function isAuthenticated(req: PayloadRequest): Promise<boolean> {
   if (req.user) return true
   const cookie = req.headers.get?.('cookie') ?? ''
-  const token = cookie.match(/payload-token=([^;]+)/)?.[1]
-  if (!token) return false
+  const raw = cookie.match(/payload-token=([^;]+)/)?.[1]
+  if (!raw) return false
+  const token = decodeURIComponent(raw)
   try {
     const secret = new TextEncoder().encode(process.env.PAYLOAD_SECRET || '')
     const { payload } = await jwtVerify(token, secret)
-    return payload['collection'] === 'users' && Boolean(payload['id'])
-  } catch {
+    console.log('[isAuthenticated] JWT payload keys:', Object.keys(payload).join(','), '| id:', payload['id'])
+    return Boolean(payload['id'])
+  } catch (err) {
+    console.log('[isAuthenticated] jwtVerify failed:', (err as Error).message)
     return false
   }
 }
