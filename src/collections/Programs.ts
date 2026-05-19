@@ -4,7 +4,12 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
-  access: { read: () => true, create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user) },
+  access: {
+    read: () => true,
+    create: ({ req }) => { console.log('[Programs] create – user:', req.user?.id ?? 'null'); return Boolean(req.user) },
+    update: ({ req }) => { console.log('[Programs] update – user:', req.user?.id ?? 'null'); return Boolean(req.user) },
+    delete: ({ req }) => { console.log('[Programs] delete – user:', req.user?.id ?? 'null'); return Boolean(req.user) },
+  },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
