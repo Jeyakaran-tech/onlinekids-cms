@@ -1,9 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateFrontend } from '../lib/revalidateFrontend'
+import { isAuthenticated } from '../lib/isAuthenticated'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
-  access: { read: () => true, create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user) },
+  access: { read: () => true, create: ({ req }) => isAuthenticated(req), update: ({ req }) => isAuthenticated(req), delete: ({ req }) => isAuthenticated(req) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'question',

@@ -105,9 +105,6 @@ const SEED_PROGRAMS = [
   },
 ]
 
-const _secret = process.env.PAYLOAD_SECRET || ''
-console.log('[CMS] PAYLOAD_SECRET length:', _secret.length, '| prefix:', _secret.substring(0, 8) || '(empty)')
-
 export default buildConfig({
   serverURL: process.env.SERVER_URL || 'http://localhost:3001',
   admin: {
@@ -139,7 +136,7 @@ export default buildConfig({
       payload.logger.warn('onInit seed skipped: ' + (err as Error).message)
     }
   },
-  secret: _secret,
+  secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

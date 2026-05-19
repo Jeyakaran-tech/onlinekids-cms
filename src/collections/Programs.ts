@@ -1,23 +1,17 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { revalidateFrontend } from '../lib/revalidateFrontend'
+import { isAuthenticated } from '../lib/isAuthenticated'
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
   access: {
     read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => {
-      const cookie = req.headers.get?.('cookie')
-      console.log(`[Programs] update – user:${req.user?.id ?? 'null'} cookie:${cookie?.includes('payload-token') ? 'present' : 'absent'}`)
-      return true
-    },
-    delete: ({ req }) => Boolean(req.user),
+    create: ({ req }) => isAuthenticated(req),
+    update: ({ req }) => isAuthenticated(req),
+    delete: ({ req }) => isAuthenticated(req),
   },
-  hooks: {
-    beforeOperation: [({ req, operation }) => { console.log(`[Programs] ${operation} – req.user: ${req.user?.id ?? 'null'}`) }],
-    afterChange: [() => revalidateFrontend()],
-  },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'ageRange', 'price', 'featured'],
