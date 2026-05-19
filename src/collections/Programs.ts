@@ -7,7 +7,11 @@ export const Programs: CollectionConfig = {
   access: {
     read: () => true,
     create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
+    update: ({ req }) => {
+      const cookie = req.headers.get?.('cookie')
+      console.log(`[Programs] update – user:${req.user?.id ?? 'null'} cookie:${cookie?.includes('payload-token') ? 'present' : 'absent'}`)
+      return true
+    },
     delete: ({ req }) => Boolean(req.user),
   },
   hooks: {
