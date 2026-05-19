@@ -22,3 +22,5 @@ payload-types.ts
 # misc
 .DS_Store
 *.pem
+.vercel
+.env*.local
