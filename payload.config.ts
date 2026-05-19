@@ -105,11 +105,8 @@ const SEED_PROGRAMS = [
   },
 ]
 
-const _serverURL = process.env.SERVER_URL || 'http://localhost:3001'
-console.log('[CMS config] SERVER_URL:', process.env.SERVER_URL ?? '(not set)', '| resolved:', _serverURL)
-
 export default buildConfig({
-  serverURL: _serverURL,
+  serverURL: process.env.SERVER_URL || 'http://localhost:3001',
   admin: {
     user: Users.slug,
     meta: {

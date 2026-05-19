@@ -6,9 +6,9 @@ export const Programs: CollectionConfig = {
   slug: 'programs',
   access: {
     read: () => true,
-    create: ({ req }) => { console.log('[Programs] create – user:', req.user?.id ?? 'null'); return Boolean(req.user) },
-    update: ({ req }) => { console.log('[Programs] update – user:', req.user?.id ?? 'null', '– cookie:', req.headers.get?.('cookie')?.includes('payload-token') ? 'present' : 'missing'); return true },
-    delete: ({ req }) => { console.log('[Programs] delete – user:', req.user?.id ?? 'null'); return Boolean(req.user) },
+    create: ({ req }) => Boolean(req.user),
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
   },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
