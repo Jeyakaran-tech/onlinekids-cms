@@ -1,5 +1,5 @@
 import { buildConfig } from 'payload'
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -116,9 +116,9 @@ export default buildConfig({
   collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs],
   globals: [SiteSettings, HomePage, Navigation],
   editor: lexicalEditor({}),
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || 'file:./cms.db',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI,
     },
   }),
   onInit: async (payload) => {
