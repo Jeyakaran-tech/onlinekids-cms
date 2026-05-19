@@ -1,15 +1,14 @@
 import { jwtVerify } from 'jose'
+import { cookies } from 'next/headers'
 import type { PayloadRequest } from 'payload'
 
 export async function isAuthenticated(req: PayloadRequest): Promise<boolean> {
-  console.log('[isAuthenticated] called – req.user:', req.user?.id ?? 'null')
   if (req.user) return true
-  const cookie = req.headers.get?.('cookie') ?? ''
-  const raw = cookie.match(/payload-token=([^;]+)/)?.[1]
-  console.log('[isAuthenticated] token raw:', raw ? 'found' : 'missing')
-  if (!raw) return false
   try {
-    const token = decodeURIComponent(raw)
+    const cookieStore = await cookies()
+    const token = cookieStore.get('payload-token')?.value
+    console.log('[isAuthenticated] token via next/headers:', token ? 'found' : 'missing')
+    if (!token) return false
     const secret = new TextEncoder().encode(process.env.PAYLOAD_SECRET || '')
     const { payload } = await jwtVerify(token, secret)
     console.log('[isAuthenticated] JWT ok – id:', payload['id'])
