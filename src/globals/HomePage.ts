@@ -4,7 +4,7 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home Page',
-  access: { read: () => true },
+  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   fields: [
     {

@@ -4,7 +4,7 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
-  access: { read: () => true },
+  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   fields: [
     { name: 'siteName', type: 'text', defaultValue: 'The Online Kids' },

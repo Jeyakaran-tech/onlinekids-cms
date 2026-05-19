@@ -3,7 +3,7 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
-  access: { read: () => true },
+  access: { read: () => true, create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'question',

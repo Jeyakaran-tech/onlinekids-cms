@@ -3,7 +3,7 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const TeamMembers: CollectionConfig = {
   slug: 'team-members',
-  access: { read: () => true },
+  access: { read: () => true, create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'name',
