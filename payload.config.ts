@@ -142,10 +142,14 @@ export default buildConfig({
   },
   cors: [
     'http://localhost:3000',
+    'http://localhost:3001',
     process.env.FRONTEND_URL,
+    process.env.SERVER_URL,
   ].filter(Boolean) as string[],
   csrf: [
     'http://localhost:3000',
+    'http://localhost:3001',
     process.env.FRONTEND_URL,
+    process.env.SERVER_URL,
   ].filter(Boolean) as string[],
 })
