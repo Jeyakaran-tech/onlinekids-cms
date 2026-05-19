@@ -1,9 +1,11 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
   access: { read: () => true },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   fields: [
     { name: 'siteName', type: 'text', defaultValue: 'The Online Kids' },
     {

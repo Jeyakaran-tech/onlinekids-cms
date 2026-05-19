@@ -1,9 +1,11 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home Page',
   access: { read: () => true },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   fields: [
     {
       name: 'hero',

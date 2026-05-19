@@ -1,9 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
   access: { read: () => true },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'ageRange', 'price', 'featured'],

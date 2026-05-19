@@ -1,8 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const TeamMembers: CollectionConfig = {
   slug: 'team-members',
   access: { read: () => true },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'role', 'order'],

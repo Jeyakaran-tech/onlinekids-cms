@@ -1,8 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateFrontend } from '../lib/revalidateFrontend'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   access: { read: () => true },
+  hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'studentName',
     defaultColumns: ['studentName', 'program', 'rating', 'featured'],
