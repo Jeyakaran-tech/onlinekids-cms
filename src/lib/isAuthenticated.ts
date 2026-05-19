@@ -6,8 +6,9 @@ export async function isAuthenticated(req: PayloadRequest): Promise<boolean> {
   if (req.user) return true
   try {
     const cookieStore = await cookies()
+    const all = cookieStore.getAll()
+    console.log('[isAuthenticated] all cookies:', all.map(c => c.name).join(',') || '(none)')
     const token = cookieStore.get('payload-token')?.value
-    console.log('[isAuthenticated] token via next/headers:', token ? 'found' : 'missing')
     if (!token) return false
     const secret = new TextEncoder().encode(process.env.PAYLOAD_SECRET || '')
     const { payload } = await jwtVerify(token, secret)
