@@ -199,6 +199,95 @@ export default buildConfig({
     }
 
     try {
+      const existingPosts = await payload.find({ collection: 'blog-posts', limit: 1 })
+      if (existingPosts.totalDocs === 0) {
+        payload.logger.info('Seeding blog posts...')
+        const makeContent = (paragraphs: string[]) => ({
+          root: {
+            type: 'root', version: 1, direction: 'ltr', format: '', indent: 0,
+            children: paragraphs.map((text) => ({
+              type: 'paragraph', version: 1, direction: 'ltr', format: '', indent: 0,
+              children: [{ type: 'text', version: 1, detail: 0, format: 0, mode: 'normal', style: '', text }],
+            })),
+          },
+        })
+        const SEED_POSTS = [
+          {
+            title: '5 Vedic Maths Tricks Every Student Should Know',
+            slug: '5-vedic-maths-tricks-every-student-should-know',
+            excerpt: 'Speed up your mental arithmetic with these five ancient Vedic techniques that top students use to solve problems in seconds — no calculator needed.',
+            category: 'maths',
+            publishedDate: '2025-03-10T00:00:00.000Z',
+            featured: true,
+            content: makeContent([
+              'Mental maths is one of the most underrated skills in school — and Vedic Maths gives students a serious edge. These techniques, rooted in ancient Indian mathematics, let you solve complex arithmetic in your head faster than most people can reach for a calculator.',
+              'Trick 1: Multiply any number by 11 instantly. To multiply a two-digit number by 11, simply add the two digits and place the result in the middle. For example, 36 × 11: add 3 + 6 = 9, so the answer is 396. If the sum exceeds 9, carry the 1 — so 75 × 11: 7 + 5 = 12, making the answer 825.',
+              'Trick 2: Square numbers ending in 5. To square any number ending in 5, multiply the tens digit by the next number up, then append 25. So 65² = (6 × 7) followed by 25 = 4225. This works every time and can be done in under two seconds.',
+              'Trick 3: Subtract from 1000 the easy way. Instead of borrowing across multiple columns, subtract each digit from 9 — except the last, which you subtract from 10. So 1000 − 638: 9−6=3, 9−3=6, 10−8=2. Answer: 362. Instant.',
+              'Trick 4: Multiply numbers close to 100. Take 96 × 97. Find how far each is from 100: 4 and 3. The answer\'s last two digits are 4 × 3 = 12. The first two digits are 100 − 4 − 3 = 93. Answer: 9312. Works beautifully for selective entry and scholarship exam papers.',
+              'Trick 5: The butterfly method for fractions. To add or compare fractions without finding a common denominator, cross-multiply and add the results for the numerator, then multiply the denominators. It\'s fast, visual, and surprisingly reliable.',
+              'These techniques are at the heart of our Speed Maths Program, where students across Grade 3–9 practice them weekly until they become second nature. The goal isn\'t just speed — it\'s building number sense that makes all of maths easier.',
+            ]),
+          },
+          {
+            title: 'How to Ace the VIC Selective Entry Maths Test',
+            slug: 'how-to-ace-vic-selective-entry-maths-test',
+            excerpt: 'The Selective Entry maths section is all about speed and reasoning, not just knowing your times tables. Here\'s what the top-scoring students do differently.',
+            category: 'maths',
+            publishedDate: '2025-04-02T00:00:00.000Z',
+            featured: false,
+            content: makeContent([
+              'Every year, thousands of Year 6 students across Victoria sit the Selective Entry exam — and the maths section is where the strongest candidates pull ahead. It\'s not a test of the school curriculum alone. It tests how quickly and accurately you can reason with numbers under pressure.',
+              'Understand the question types. The VIC Selective maths section includes number operations, fractions and decimals, patterns and algebra, measurement, and word problems. The word problems are the hardest — they require you to read carefully, identify what\'s being asked, and choose the right operation before you even touch your pencil.',
+              'Speed is everything. Most students know the maths; the challenge is finishing in time. Students who score in the top band typically answer each question in under 60 seconds. That means you need automatic recall of multiplication facts, fraction rules, and percentage formulas — not slow, step-by-step working.',
+              'Practice with timed papers. Doing 10 questions in 15 minutes each Sunday is worth more than two hours of untimed homework. Timed practice builds the habit of moving on when stuck — one of the most important exam skills there is.',
+              'Analyse every mistake. When you get a question wrong, don\'t just look at the answer. Ask: did I misread it? Did I use the wrong method? Did I rush? Categorising errors helps you fix the root cause rather than the symptom.',
+              'Our Selective Entry VIC program runs weekly sessions targeting exactly these skills — timed problem sets, worked solution reviews, and monthly mock exams that mirror the actual test format. Students who complete the full program consistently outperform their peers on exam day.',
+            ]),
+          },
+          {
+            title: 'Why Mental Maths Still Matters in the Age of Calculators',
+            slug: 'why-mental-maths-still-matters',
+            excerpt: 'With calculators in every pocket, why bother training mental arithmetic? The answer goes deeper than just exam rules — it shapes how students think.',
+            category: 'maths',
+            publishedDate: '2025-04-20T00:00:00.000Z',
+            featured: false,
+            content: makeContent([
+              'Parents sometimes ask us: if kids will always have access to calculators, why are we spending time on mental maths? It\'s a fair question — and the answer is more important than most people expect.',
+              'Mental maths builds number sense. When students can estimate answers and check whether a result is reasonable, they catch errors that calculators never will. A student who blindly types 3.5 × 20 and reads back "700" won\'t notice something\'s wrong unless they have an instinct for what the answer should be.',
+              'It trains working memory. Holding intermediate steps in mind while solving a problem is exactly what working memory does — and it\'s the same cognitive muscle used in reading comprehension, science reasoning, and essay writing. Mental maths is essentially a workout for the brain.',
+              'Exam conditions demand it. In the VIC and NSW Selective Entry exams, the Scholarship exam, and many NAPLAN sections, calculators are not permitted. Students who haven\'t trained their mental arithmetic arrive at these exams without one of their most important tools.',
+              'Speed creates confidence. When basic operations are automatic, students can direct their full attention to the harder reasoning in a problem. Slow arithmetic is a bottleneck — it drains mental energy and increases anxiety.',
+              'At The Online Kids, our Speed Maths Program uses techniques from Vedic, Chinese, Arabic, and Japanese traditions to make arithmetic fast and intuitive. Students in the program regularly cut their working time in half within the first term — not by working harder, but by working smarter.',
+            ]),
+          },
+          {
+            title: 'Scholarship Exam Maths: What to Expect and How to Prepare',
+            slug: 'scholarship-exam-maths-what-to-expect',
+            excerpt: 'The scholarship exam maths section is harder than school maths but very learnable. Here\'s a clear breakdown of what\'s tested and how to prepare from Grade 4.',
+            category: 'maths',
+            publishedDate: '2025-05-05T00:00:00.000Z',
+            featured: false,
+            content: makeContent([
+              'Scholarship exams in Victoria and NSW — including those for independent and Catholic schools — test maths well above the standard school curriculum for the year level. A Grade 5 student sitting a scholarship exam is expected to handle material typically covered in Grade 6 or early Grade 7.',
+              'What topics are covered? Scholarship maths typically includes whole number operations, fractions, decimals and percentages, ratio and proportion, basic algebra and patterns, area and perimeter, time and distance problems, and data interpretation. The harder papers also include probability and simple geometry proofs.',
+              'The format matters. Questions are usually multiple choice with 30–40 questions in 40 minutes. That\'s less than 90 seconds per question — fast enough that hesitating on two or three problems can cost you a passing score.',
+              'Start early. Grade 4 is not too early to begin. Students who start structured preparation 12–18 months before the exam have time to genuinely master the content, not just memorise it. Last-minute cramming rarely works for scholarship maths because the problems require flexible thinking, not recall.',
+              'Focus on word problems. The questions that separate scholarship recipients from other strong students are almost always multi-step word problems. Practice reading carefully, underlining key information, and writing a brief plan before calculating.',
+              'Our Scholarship Exam Prep program is structured around exactly this — weekly sessions for Grade 4, 5, and 6 students, monthly mock exams, and detailed feedback so parents know exactly where their child needs to focus next.',
+            ]),
+          },
+        ]
+        for (const post of SEED_POSTS) {
+          await payload.create({ collection: 'blog-posts', data: post })
+        }
+        payload.logger.info('Blog posts seeded.')
+      }
+    } catch (err) {
+      payload.logger.warn('Blog post seed skipped: ' + (err as Error).message)
+    }
+
+    try {
       const existingSchedule = await payload.findGlobal({ slug: 'weekly-schedule' })
       if (!existingSchedule?.slots?.length) {
         payload.logger.info('Seeding weekly schedule...')
