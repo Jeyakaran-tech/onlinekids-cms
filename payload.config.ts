@@ -10,10 +10,12 @@ import { Programs } from './src/collections/Programs'
 import { Testimonials } from './src/collections/Testimonials'
 import { TeamMembers } from './src/collections/TeamMembers'
 import { FAQs } from './src/collections/FAQs'
+import { BlogPosts } from './src/collections/BlogPosts'
 
 import { SiteSettings } from './src/globals/SiteSettings'
 import { HomePage } from './src/globals/HomePage'
 import { Navigation } from './src/globals/Navigation'
+import { WeeklySchedule } from './src/globals/WeeklySchedule'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -113,8 +115,8 @@ export default buildConfig({
       titleSuffix: '— The Online Kids CMS',
     },
   },
-  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs],
-  globals: [SiteSettings, HomePage, Navigation],
+  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts],
+  globals: [SiteSettings, HomePage, Navigation, WeeklySchedule],
   editor: lexicalEditor({}),
   db: postgresAdapter({
     pool: {
