@@ -11,7 +11,10 @@ export const BlogPosts: CollectionConfig = {
     update: ({ req }) => isAuthenticated(req),
     delete: ({ req }) => isAuthenticated(req),
   },
-  hooks: { afterChange: [() => revalidateFrontend()] },
+  hooks: {
+    afterChange: [() => revalidateFrontend()],
+    afterDelete: [() => revalidateFrontend()],
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishedDate', 'featured'],
