@@ -125,6 +125,20 @@ export default buildConfig({
     push: true,
   }),
   onInit: async (payload) => {
+    // Ensure any new collection columns exist in payload_locked_documents_rels
+    // (push: true doesn't reliably update this table in serverless environments)
+    try {
+      const pool = (payload.db as any).pool
+      if (pool?.query) {
+        await pool.query(
+          `ALTER TABLE payload_locked_documents_rels ADD COLUMN IF NOT EXISTS blog_posts_id integer`
+        )
+        payload.logger.info('[schema] blog_posts_id column ensured')
+      }
+    } catch (err) {
+      payload.logger.warn('[schema] ' + (err as Error).message)
+    }
+
     try {
       const existing = await payload.find({ collection: 'programs', limit: 1 })
       if (existing.totalDocs === 0) {
