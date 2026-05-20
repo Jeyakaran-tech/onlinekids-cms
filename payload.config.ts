@@ -130,10 +130,51 @@ export default buildConfig({
     try {
       const pool = (payload.db as any).pool
       if (pool?.query) {
+        // locked_documents_rels column for blog_posts collection
         await pool.query(
           `ALTER TABLE payload_locked_documents_rels ADD COLUMN IF NOT EXISTS blog_posts_id integer`
         )
-        payload.logger.info('[schema] blog_posts_id column ensured')
+
+        // WeeklySchedule global tables (push: true doesn't create these reliably)
+        await pool.query(`
+          CREATE TABLE IF NOT EXISTS weekly_schedule (
+            id serial PRIMARY KEY,
+            updated_at timestamp with time zone DEFAULT now() NOT NULL,
+            created_at timestamp with time zone DEFAULT now() NOT NULL,
+            heading varchar,
+            subheading varchar
+          )
+        `)
+        await pool.query(`
+          CREATE TABLE IF NOT EXISTS weekly_schedule_slots (
+            _order integer NOT NULL,
+            _parent_id integer NOT NULL REFERENCES weekly_schedule(id) ON DELETE CASCADE,
+            id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+            day varchar,
+            start_time varchar,
+            end_time varchar,
+            subject varchar,
+            description varchar,
+            color_theme varchar
+          )
+        `)
+
+        // BlogPosts collection table (in case push: true missed it)
+        await pool.query(`
+          CREATE TABLE IF NOT EXISTS blog_posts (
+            id serial PRIMARY KEY,
+            updated_at timestamp with time zone DEFAULT now() NOT NULL,
+            created_at timestamp with time zone DEFAULT now() NOT NULL,
+            title varchar NOT NULL,
+            slug varchar UNIQUE,
+            excerpt varchar,
+            content jsonb,
+            published_date timestamp with time zone,
+            featured boolean DEFAULT false
+          )
+        `)
+
+        payload.logger.info('[schema] all tables ensured')
       }
     } catch (err) {
       payload.logger.warn('[schema] ' + (err as Error).message)
