@@ -14,7 +14,7 @@ export const BlogPosts: CollectionConfig = {
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'publishedDate', 'featured'],
+    defaultColumns: ['title', 'category', 'publishedDate', 'featured'],
   },
   fields: [
     { name: 'title', type: 'text', required: true },
@@ -48,6 +48,17 @@ export const BlogPosts: CollectionConfig = {
         date: { pickerAppearance: 'dayOnly', displayFormat: 'd MMM yyy' },
         description: 'Date shown on the post',
       },
+    },
+    {
+      name: 'category',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Maths', value: 'maths' },
+        { label: 'Arts', value: 'arts' },
+        { label: 'Coding For Kids', value: 'coding-for-kids' },
+      ],
+      defaultValue: 'maths',
     },
     {
       name: 'featured',
