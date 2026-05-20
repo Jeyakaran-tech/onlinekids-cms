@@ -179,6 +179,9 @@ export default buildConfig({
         await pool.query(`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS category varchar`)
         await pool.query(`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image_id integer`)
 
+        // Backfill seeded posts that got inserted before the category column existed
+        await pool.query(`UPDATE blog_posts SET category = 'maths' WHERE category IS NULL`)
+
         payload.logger.info('[schema] all tables ensured')
       }
     } catch (err) {
