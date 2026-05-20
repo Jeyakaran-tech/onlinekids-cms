@@ -170,9 +170,14 @@ export default buildConfig({
             excerpt varchar,
             content jsonb,
             published_date timestamp with time zone,
-            featured boolean DEFAULT false
+            featured boolean DEFAULT false,
+            category varchar,
+            cover_image_id integer
           )
         `)
+        // Add columns that may be missing from previously created tables
+        await pool.query(`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS category varchar`)
+        await pool.query(`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image_id integer`)
 
         payload.logger.info('[schema] all tables ensured')
       }
