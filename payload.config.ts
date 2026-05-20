@@ -151,6 +151,33 @@ export default buildConfig({
     } catch (err) {
       payload.logger.warn('onInit seed skipped: ' + (err as Error).message)
     }
+
+    try {
+      const existingSchedule = await payload.findGlobal({ slug: 'weekly-schedule' })
+      if (!existingSchedule?.slots?.length) {
+        payload.logger.info('Seeding weekly schedule...')
+        await payload.updateGlobal({
+          slug: 'weekly-schedule',
+          data: {
+            heading: 'Weekly Class Schedule',
+            subheading: 'Live online classes running throughout the week — pick a session that suits your schedule.',
+            slots: [
+              { day: 'monday',    startTime: '4:00 PM',  endTime: '5:00 PM',  subject: 'Speed Maths – Level 1',            description: 'Grade 3–5 · 1 hour',      colorTheme: 'emerald' },
+              { day: 'tuesday',   startTime: '5:00 PM',  endTime: '6:30 PM',  subject: 'Selective Entry VIC',              description: 'Year 6–7 · 1.5 hours',    colorTheme: 'purple'  },
+              { day: 'wednesday', startTime: '4:00 PM',  endTime: '5:00 PM',  subject: 'Speed Maths – Level 2',            description: 'Grade 6–8 · 1 hour',      colorTheme: 'emerald' },
+              { day: 'thursday',  startTime: '4:30 PM',  endTime: '5:30 PM',  subject: 'English & Science Masterclass',    description: 'Grade 5–7 · 1 hour',      colorTheme: 'blue'    },
+              { day: 'thursday',  startTime: '5:30 PM',  endTime: '7:00 PM',  subject: 'VCE Tutoring',                     description: 'Year 10–12 · 1.5 hours',  colorTheme: 'rose'    },
+              { day: 'saturday',  startTime: '9:00 AM',  endTime: '10:30 AM', subject: 'Selective Entry VIC – Super 15',   description: 'Year 6–7 · 1.5 hours',    colorTheme: 'purple'  },
+              { day: 'saturday',  startTime: '11:00 AM', endTime: '12:00 PM', subject: 'Scholarship Exam Prep',            description: 'Grade 4–6 · 1 hour',      colorTheme: 'amber'   },
+              { day: 'sunday',    startTime: '10:00 AM', endTime: '11:30 AM', subject: 'Selective Entry NSW',              description: 'Year 6–7 · 1.5 hours',    colorTheme: 'cyan'    },
+            ],
+          },
+        })
+        payload.logger.info('Weekly schedule seeded.')
+      }
+    } catch (err) {
+      payload.logger.warn('Schedule seed skipped: ' + (err as Error).message)
+    }
   },
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
