@@ -3,10 +3,10 @@ import React from 'react'
 export const Icon = () => (
   <div style={{
     width: 32, height: 32, borderRadius: 8,
-    background: 'linear-gradient(135deg, #7c3aed, #ec4899)',
+    background: '#000',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
   }}>
-    <span style={{ color: '#fff', fontWeight: 900, fontSize: 15 }}>K</span>
+    <span style={{ color: '#fff', fontWeight: 900, fontSize: 14, fontFamily: 'system-ui, -apple-system, sans-serif' }}>K</span>
   </div>
 )
 
