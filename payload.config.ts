@@ -114,6 +114,12 @@ export default buildConfig({
     meta: {
       titleSuffix: '— The Online Kids CMS',
     },
+    components: {
+      graphics: {
+        Logo: '/src/components/Logo',
+        Icon: '/src/components/Icon',
+      },
+    },
   },
   collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts],
   globals: [SiteSettings, HomePage, Navigation, WeeklySchedule],
@@ -121,6 +127,10 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
+      max: 10,
+      min: 2,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
     },
     push: true,
   }),
@@ -288,6 +298,82 @@ export default buildConfig({
       }
     } catch (err) {
       payload.logger.warn('Blog post seed skipped: ' + (err as Error).message)
+    }
+
+    try {
+      const existingTeam = await payload.find({ collection: 'team-members', limit: 1 })
+      if (existingTeam.totalDocs === 0) {
+        payload.logger.info('Seeding team members...')
+        const SEED_TEAM = [
+          {
+            name: 'Mr Nitesh Naveen',
+            role: 'Speed Maths & High School Mathematics',
+            bio: 'Over 10 years of High School Maths tutoring in Australia. Expert in Speed Maths. MBA from IIM Calcutta, Engineering in Electronics — topper throughout. Currently working as an AI specialist at a leading Melbourne bank building Maths models. Teaching Maths is his passion.',
+            subjects: ['maths', 'speed-maths', 'vce', 'selective', 'scholarship'],
+            bookingUrls: [
+              { subject: 'maths', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'speed-maths', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'vce', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'selective', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'scholarship', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+            ],
+            order: 1,
+          },
+          {
+            name: 'Roshni Sinha',
+            role: 'English, Science & Junior Mathematics',
+            bio: 'Graduate of Haileybury. Provides middle and high school tutoring specialising in English, Science and junior-level Mathematics. Focuses on selective school preparation for writing, reading and verbal reasoning, while supporting students in developing confidence in science and foundational maths.',
+            subjects: ['english', 'science', 'maths', 'selective', 'scholarship'],
+            bookingUrls: [
+              { subject: 'english', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'science', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'maths', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'selective', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'scholarship', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+            ],
+            order: 2,
+          },
+          {
+            name: 'Arjun Mehta',
+            role: 'VCE Physics & Chemistry',
+            bio: 'Bachelor of Science (Honours) in Physics from the University of Melbourne. Specialises in VCE Units 3 & 4 Physics and Chemistry, with a focus on exam technique and deep conceptual understanding.',
+            subjects: ['vce', 'science'],
+            bookingUrls: [
+              { subject: 'vce', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'science', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+            ],
+            order: 3,
+          },
+          {
+            name: 'Priya Sharma',
+            role: 'Scholarship Exam Prep & Primary Maths',
+            bio: 'Former primary school teacher with 7 years of classroom experience. Expert in Scholarship exam preparation for Grade 4–6, including reading comprehension, written expression and numerical reasoning.',
+            subjects: ['scholarship', 'maths', 'english'],
+            bookingUrls: [
+              { subject: 'scholarship', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'maths', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+              { subject: 'english', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+            ],
+            order: 4,
+          },
+          {
+            name: 'Daniel Park',
+            role: 'Coding & Robotics',
+            bio: 'Software engineer with a passion for teaching kids to code. Runs Python, Scratch and robotics sessions for students in Grade 3–8. Believes every child can learn to think computationally.',
+            subjects: ['coding'],
+            bookingUrls: [
+              { subject: 'coding', url: 'https://cal.com/jeyakaran-karnan-93nkgl/free-trial-class' },
+            ],
+            order: 5,
+          },
+        ]
+        for (const member of SEED_TEAM) {
+          await payload.create({ collection: 'team-members', data: member })
+        }
+        payload.logger.info('Team members seeded.')
+      }
+    } catch (err) {
+      payload.logger.warn('Team seed skipped: ' + (err as Error).message)
     }
 
     try {
