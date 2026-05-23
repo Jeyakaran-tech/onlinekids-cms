@@ -16,6 +16,7 @@ import { SiteSettings } from './src/globals/SiteSettings'
 import { HomePage } from './src/globals/HomePage'
 import { Navigation } from './src/globals/Navigation'
 import { WeeklySchedule } from './src/globals/WeeklySchedule'
+import { Pricing } from './src/globals/Pricing'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -122,7 +123,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts],
-  globals: [SiteSettings, HomePage, Navigation, WeeklySchedule],
+  globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing],
   editor: lexicalEditor({}),
   db: postgresAdapter({
     pool: {
