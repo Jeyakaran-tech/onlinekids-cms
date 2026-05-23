@@ -127,16 +127,17 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
-      max: 10,
-      min: 2,
-      idleTimeoutMillis: 30000,
+      max: 3,
+      min: 0,
+      idleTimeoutMillis: 10000,
       connectionTimeoutMillis: 5000,
     },
-    push: true,
+    // schema push is expensive on every cold start — only run locally
+    push: process.env.NODE_ENV !== 'production',
   }),
   onInit: async (payload) => {
-    // Ensure any new collection columns exist in payload_locked_documents_rels
-    // (push: true doesn't reliably update this table in serverless environments)
+    if (process.env.NODE_ENV === 'production') return
+
     try {
       const pool = (payload.db as any).pool
       if (pool?.query) {
