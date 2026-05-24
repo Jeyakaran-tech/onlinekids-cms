@@ -11,6 +11,7 @@ import { Testimonials } from './src/collections/Testimonials'
 import { TeamMembers } from './src/collections/TeamMembers'
 import { FAQs } from './src/collections/FAQs'
 import { BlogPosts } from './src/collections/BlogPosts'
+import { Events } from './src/collections/Events'
 
 import { SiteSettings } from './src/globals/SiteSettings'
 import { HomePage } from './src/globals/HomePage'
@@ -122,7 +123,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts],
+  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events],
   globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing],
   editor: lexicalEditor({}),
   db: postgresAdapter({
@@ -300,6 +301,49 @@ export default buildConfig({
       }
     } catch (err) {
       payload.logger.warn('Blog post seed skipped: ' + (err as Error).message)
+    }
+
+    try {
+      const existingEvents = await payload.find({ collection: 'events', limit: 1 })
+      if (existingEvents.totalDocs === 0) {
+        payload.logger.info('Seeding events...')
+        await payload.create({
+          collection: 'events',
+          data: {
+            title: 'SUPER 15 Online Real Time Selectathon',
+            slug: 'super-15-selectathon-may-2025',
+            category: 'exam',
+            excerpt: 'A full-day diagnostic test for Grade 7 students — evaluate your child\'s strengths and weaknesses a year ahead and build a one-year roadmap for 100% Selective School success.',
+            targetGrade: 'Grade 7',
+            dates: [
+              { label: 'Friday 30 May 2025', date: '2025-05-30T00:00:00.000Z' },
+              { label: 'Saturday 31 May 2025', date: '2025-05-31T00:00:00.000Z' },
+              { label: 'Friday 6 June 2025', date: '2025-06-06T00:00:00.000Z' },
+              { label: 'Saturday 7 June 2025', date: '2025-06-07T00:00:00.000Z' },
+            ],
+            testTime: '10 am – 2 pm',
+            feeAud: 100,
+            whatsappContact: '0416893620',
+            location: 'From Home (Online)',
+            testSchedule: [
+              { session: 'Writing', duration: '40 minutes', type: 'session' },
+              { session: 'Short Break', duration: '10 minutes', type: 'break' },
+              { session: 'Reasoning – Reading', duration: '35 minutes', type: 'session' },
+              { session: 'Lunch Break', duration: '45 minutes', type: 'break' },
+              { session: 'Reasoning – Mathematics', duration: '30 minutes', type: 'session' },
+              { session: 'Short Break', duration: '10 minutes', type: 'break' },
+              { session: 'General Ability – Verbal', duration: '30 minutes', type: 'session' },
+              { session: 'Short Break', duration: '10 minutes', type: 'break' },
+              { session: 'General Ability – Quantitative', duration: '30 minutes', type: 'session' },
+            ],
+            featured: true,
+            publishedDate: '2025-05-20T00:00:00.000Z',
+          },
+        })
+        payload.logger.info('Events seeded.')
+      }
+    } catch (err) {
+      payload.logger.warn('Events seed skipped: ' + (err as Error).message)
     }
 
     try {
