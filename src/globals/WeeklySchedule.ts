@@ -46,14 +46,12 @@ export const WeeklySchedule: GlobalConfig = {
         {
           name: 'startTime',
           type: 'text',
-          required: true,
-          admin: { description: 'e.g. 9:00 AM' },
+          admin: { description: 'e.g. 9:00 AM — leave blank if TBA' },
         },
         {
           name: 'endTime',
           type: 'text',
-          required: true,
-          admin: { description: 'e.g. 10:00 AM' },
+          admin: { description: 'e.g. 10:00 AM — leave blank if TBA' },
         },
         {
           name: 'subject',
@@ -64,7 +62,17 @@ export const WeeklySchedule: GlobalConfig = {
         {
           name: 'description',
           type: 'text',
-          admin: { description: 'Optional — e.g. Grade 3–5 · 1 hour' },
+          admin: { description: 'Grade range — e.g. Grade 3–5' },
+        },
+        {
+          name: 'section',
+          type: 'select',
+          defaultValue: 'term',
+          options: [
+            { label: 'During School (Weekly)', value: 'term' },
+            { label: 'School Holidays Bootcamp', value: 'holidays' },
+          ],
+          admin: { description: 'Which calendar section this slot belongs to' },
         },
         {
           name: 'colorTheme',
