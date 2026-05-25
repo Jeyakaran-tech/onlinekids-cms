@@ -323,7 +323,7 @@ export default buildConfig({
             ],
             testTime: '10 am – 2 pm',
             feeAud: 100,
-            whatsappContact: '0416893620',
+            whatsappContact: '0416893630',
             location: 'From Home (Online)',
             testSchedule: [
               { session: 'Writing', duration: '40 minutes', type: 'session' },
