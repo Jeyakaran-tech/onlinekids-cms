@@ -142,7 +142,7 @@ export default buildConfig({
       max: 3,
       min: 0,
       idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 15000,
     },
     // schema push is expensive on every cold start — only run locally
     push: process.env.NODE_ENV !== 'production',
