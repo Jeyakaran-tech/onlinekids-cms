@@ -13,6 +13,7 @@ import { TeamMembers } from './src/collections/TeamMembers'
 import { FAQs } from './src/collections/FAQs'
 import { BlogPosts } from './src/collections/BlogPosts'
 import { Events } from './src/collections/Events'
+import { Pages } from './src/collections/Pages'
 
 import { SiteSettings } from './src/globals/SiteSettings'
 import { HomePage } from './src/globals/HomePage'
@@ -124,7 +125,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events],
+  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events, Pages],
   globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing],
   editor: lexicalEditor({}),
   plugins: [

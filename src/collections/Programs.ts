@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { revalidateFrontend } from '../lib/revalidateFrontend'
 import { isAuthenticated } from '../lib/isAuthenticated'
+import { pageContentFields } from '../fields/pageContent'
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
@@ -14,7 +15,7 @@ export const Programs: CollectionConfig = {
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'ageRange', 'price', 'featured'],
+    defaultColumns: ['title', 'details.grade', 'details.duration', 'featured', 'order'],
   },
   fields: [
     { name: 'title', type: 'text', required: true },
@@ -34,13 +35,24 @@ export const Programs: CollectionConfig = {
     {
       name: 'details',
       type: 'group',
+      label: 'Quick Facts (shown on homepage card & program page)',
+      admin: { description: 'Short facts shown as chips on the homepage card and in the program page header.' },
       fields: [
-        { name: 'ageRange', type: 'text', label: 'Age Range', admin: { description: 'e.g. Ages 6–12' } },
-        { name: 'duration', type: 'text', admin: { description: 'e.g. 1 hour/week' } },
-        { name: 'classSize', type: 'text', label: 'Class Size', admin: { description: 'e.g. Max 6 students' } },
+        { name: 'grade', type: 'text', label: 'Grade', admin: { description: 'e.g. Grade 3–9' } },
+        { name: 'duration', type: 'text', admin: { description: 'e.g. 1 Year, or 3 Years (4 Levels)' } },
+        { name: 'classSize', type: 'text', label: 'Class Size', admin: { description: 'e.g. 10 students' } },
+        { name: 'seatsLeft', type: 'text', label: 'Seats Left', admin: { description: 'e.g. 4 available. Leave empty to hide.' } },
         { name: 'price', type: 'text', admin: { description: 'e.g. $35/class' } },
         { name: 'schedule', type: 'text', admin: { description: 'e.g. Weekends 10am–11am' } },
+        { name: 'ageRange', type: 'text', label: 'Age Range (optional)', admin: { description: 'Optional. Not shown on the site yet — use Grade instead.' } },
       ],
+    },
+    {
+      name: 'page',
+      type: 'group',
+      label: 'Program Page Content',
+      admin: { description: 'Content of the program detail page. Leave a field empty to keep the page default.' },
+      fields: pageContentFields,
     },
     {
       name: 'image',
