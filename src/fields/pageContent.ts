@@ -92,6 +92,7 @@ export const pageContentFields: Field[] = [
     type: 'array',
     label: 'Page Text (headings, paragraphs, buttons)',
     admin: {
+      hidden: true,
       description:
         'Every piece of text on this page. Edit "Text on website" to change it. "Original text" identifies the line — do not change it.',
     },
