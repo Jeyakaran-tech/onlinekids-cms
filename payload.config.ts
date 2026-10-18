@@ -120,6 +120,7 @@ export default buildConfig({
     user: Users.slug,
     livePreview: {
       collections: ['pages', 'programs'],
+      globals: ['home-page'],
     },
     meta: {
       titleSuffix: '— The Online Kids CMS',

@@ -4,6 +4,15 @@ import { revalidateFrontend } from '../lib/revalidateFrontend'
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home Page',
+  admin: {
+    livePreview: {
+      url: () => process.env.FRONTEND_URL || 'http://localhost:3000',
+      breakpoints: [
+        { label: 'Mobile', name: 'mobile', width: 390, height: 844 },
+        { label: 'Tablet', name: 'tablet', width: 820, height: 1180 },
+      ],
+    },
+  },
   access: { read: () => true, update: ({ req }) => Boolean(req.user) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   fields: [
