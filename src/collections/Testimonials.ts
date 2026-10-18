@@ -7,6 +7,7 @@ export const Testimonials: CollectionConfig = {
   access: { read: () => true, create: ({ req }) => isAuthenticated(req), update: ({ req }) => isAuthenticated(req), delete: ({ req }) => isAuthenticated(req) },
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
+    group: 'Website',
     useAsTitle: 'studentName',
     defaultColumns: ['studentName', 'program', 'rating', 'featured'],
   },

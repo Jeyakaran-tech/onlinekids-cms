@@ -8,6 +8,8 @@ export const FAQs: CollectionConfig = {
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'question',
+    group: 'Website',
+    description: 'Questions shown on the website FAQ page, grouped by category and sorted by order.',
     defaultColumns: ['question', 'category', 'order'],
   },
   fields: [
@@ -18,6 +20,9 @@ export const FAQs: CollectionConfig = {
       type: 'select',
       options: [
         { label: 'General', value: 'general' },
+        { label: 'Enrolment & Trial', value: 'enrolment' },
+        { label: 'Selective School Prep', value: 'selective' },
+        { label: 'Payments', value: 'payments' },
         { label: 'Programs', value: 'programs' },
         { label: 'Pricing', value: 'pricing' },
         { label: 'Technical', value: 'technical' },

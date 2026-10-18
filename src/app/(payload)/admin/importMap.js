@@ -21,6 +21,10 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { default as default_e88d789df85c40fa7d225cc8185e4623 } from '../../../../src/components/StatRowLabel'
+import { default as default_eddd7dbb22e1b443bc40310c14bf2651 } from '../../../../src/components/SectionRowLabel'
+import { default as default_d8af20dd5755d295e3927266323f669d } from '../../../../src/components/TitleRowLabel'
+import { default as default_4241996fb9ea59f74de18295960ee10a } from '../../../../src/components/CardRowLabel'
 import { default as default_c60fc11195254a70100a7c82614684e0 } from '../../../../src/components/Icon'
 import { default as default_d05dcd2df632bb7cb811a750e82b802a } from '../../../../src/components/Logo'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
@@ -51,6 +55,10 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/src/components/StatRowLabel#default": default_e88d789df85c40fa7d225cc8185e4623,
+  "/src/components/SectionRowLabel#default": default_eddd7dbb22e1b443bc40310c14bf2651,
+  "/src/components/TitleRowLabel#default": default_d8af20dd5755d295e3927266323f669d,
+  "/src/components/CardRowLabel#default": default_4241996fb9ea59f74de18295960ee10a,
   "/src/components/Icon#default": default_c60fc11195254a70100a7c82614684e0,
   "/src/components/Logo#default": default_d05dcd2df632bb7cb811a750e82b802a,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,

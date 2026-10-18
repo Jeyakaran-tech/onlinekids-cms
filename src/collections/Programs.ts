@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { revalidateFrontend } from '../lib/revalidateFrontend'
 import { isAuthenticated } from '../lib/isAuthenticated'
+import { programPreviewUrl } from '../lib/previewUrl'
 import { pageContentFields } from '../fields/pageContent'
 
 export const Programs: CollectionConfig = {
@@ -15,6 +16,14 @@ export const Programs: CollectionConfig = {
   hooks: { afterChange: [() => revalidateFrontend()] },
   admin: {
     useAsTitle: 'title',
+    livePreview: {
+      url: programPreviewUrl,
+      breakpoints: [
+        { label: 'Mobile', name: 'mobile', width: 390, height: 844 },
+        { label: 'Tablet', name: 'tablet', width: 820, height: 1180 },
+      ],
+    },
+    group: 'Website',
     defaultColumns: ['title', 'details.grade', 'details.duration', 'featured', 'order'],
   },
   fields: [
@@ -36,7 +45,7 @@ export const Programs: CollectionConfig = {
       name: 'details',
       type: 'group',
       label: 'Quick Facts (shown on homepage card & program page)',
-      admin: { description: 'Short facts shown as chips on the homepage card and in the program page header.' },
+      admin: { hidden: true, description: 'Moved to Home Page → Our Core Programs Section.' },
       fields: [
         { name: 'grade', type: 'text', label: 'Grade', admin: { description: 'e.g. Grade 3–9' } },
         { name: 'duration', type: 'text', admin: { description: 'e.g. 1 Year, or 3 Years (4 Levels)' } },
@@ -51,13 +60,32 @@ export const Programs: CollectionConfig = {
       name: 'page',
       type: 'group',
       label: 'Program Page Content',
-      admin: { description: 'Content of the program detail page. Leave a field empty to keep the page default.' },
+      admin: {
+        description: 'Content of the program detail page. Leave a field empty to keep the page default.',
+      },
       fields: pageContentFields,
+    },
+    {
+      name: 'subPages',
+      type: 'array',
+      label: 'Programs inside Selective Entry Victoria',
+      admin: {
+        condition: (data) => data?.slug === 'selective-entry-victoria',
+        initCollapsed: true,
+        description: 'Super 15 Batch, Exam Jump Start, Crash Course and Test Series — open one to edit its page.',
+        components: { RowLabel: '/src/components/TitleRowLabel' },
+      },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        { name: 'key', type: 'text', required: true, label: 'Page ID', admin: { readOnly: true, description: 'Identifies which website page this is.' } },
+        ...pageContentFields,
+      ],
     },
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
+      admin: { hidden: true }, // not used by the website
     },
     {
       name: 'features',

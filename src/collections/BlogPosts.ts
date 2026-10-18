@@ -16,6 +16,7 @@ export const BlogPosts: CollectionConfig = {
     afterDelete: [() => revalidateFrontend()],
   },
   admin: {
+    group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishedDate', 'featured'],
   },

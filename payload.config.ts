@@ -111,10 +111,16 @@ const SEED_PROGRAMS = [
   },
 ]
 
+// Collections shown in the admin sidebar. Media is needed for the image pickers on blog posts and testimonials.
+const VISIBLE_COLLECTIONS: string[] = [Programs.slug, FAQs.slug, BlogPosts.slug, Testimonials.slug, Media.slug]
+
 export default buildConfig({
   serverURL: process.env.SERVER_URL || 'http://localhost:3001',
   admin: {
     user: Users.slug,
+    livePreview: {
+      collections: ['pages', 'programs'],
+    },
     meta: {
       titleSuffix: '— The Online Kids CMS',
     },
@@ -125,8 +131,15 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events, Pages],
-  globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing],
+  // Admin is intentionally limited to Programs for now. Everything else stays in the
+  // schema (the website still reads it) but is hidden from the admin UI. Remove an
+  // entry from the hide lists below to bring it back.
+  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events, Pages].map((c) =>
+    VISIBLE_COLLECTIONS.includes(c.slug) ? c : { ...c, admin: { ...c.admin, hidden: true } },
+  ),
+  globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing].map((g) =>
+    g.slug === HomePage.slug ? g : { ...g, admin: { ...g.admin, hidden: true } },
+  ),
   editor: lexicalEditor({}),
   plugins: [
     vercelBlobStorage({
