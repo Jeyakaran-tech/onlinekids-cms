@@ -14,6 +14,7 @@ import { FAQs } from './src/collections/FAQs'
 import { BlogPosts } from './src/collections/BlogPosts'
 import { Events } from './src/collections/Events'
 import { Pages } from './src/collections/Pages'
+import { Subscriptions } from './src/collections/Subscriptions'
 
 import { SiteSettings } from './src/globals/SiteSettings'
 import { HomePage } from './src/globals/HomePage'
@@ -112,7 +113,7 @@ const SEED_PROGRAMS = [
 ]
 
 // Collections shown in the admin sidebar. Media is needed for the image pickers on blog posts and testimonials.
-const VISIBLE_COLLECTIONS: string[] = [Programs.slug, FAQs.slug, BlogPosts.slug, Testimonials.slug, Media.slug]
+const VISIBLE_COLLECTIONS: string[] = [Programs.slug, FAQs.slug, BlogPosts.slug, Testimonials.slug, Media.slug, Subscriptions.slug]
 
 export default buildConfig({
   serverURL: process.env.SERVER_URL || 'http://localhost:3001',
@@ -135,7 +136,7 @@ export default buildConfig({
   // Admin is intentionally limited to Programs for now. Everything else stays in the
   // schema (the website still reads it) but is hidden from the admin UI. Remove an
   // entry from the hide lists below to bring it back.
-  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events, Pages].map((c) =>
+  collections: [Users, Media, Programs, Testimonials, TeamMembers, FAQs, BlogPosts, Events, Pages, Subscriptions].map((c) =>
     VISIBLE_COLLECTIONS.includes(c.slug) ? c : { ...c, admin: { ...c.admin, hidden: true } },
   ),
   globals: [SiteSettings, HomePage, Navigation, WeeklySchedule, Pricing].map((g) =>
